@@ -1,0 +1,35 @@
+#!/bin/sh
+case $TERM in
+vt100|vt100n) clear
+	mgotek 
+	ttinvpv96 -P
+	plot4014 < TTINVPVP.PLT
+	rm TTINVPVP.PLT
+	sleep 10
+	ttinvpv96 -S
+	plot4014 < TTINVPVS.PLT
+	rm TTINVPVS.PLT
+	sleep 10
+	mrttek 
+	;;
+4014|tek)
+	clear
+	ttinvpv96 -P
+	plot4014 < TTINVPVP.PLT
+	rm TTINVPVP.PLT
+	sleep 10
+	ttinvpv96 -S
+	plot4014 < TTINVPVS.PLT
+	rm TTINVPVS.PLT
+	sleep 10
+	;;
+xterm|xterm-color|xterm-256color|sun-cmd)
+	ttinvpv96 -P
+	plotxvig < TTINVPVP.PLT
+	rm TTINVPVP.PLT
+	ttinvpv96 -S
+	plotxvig < TTINVPVS.PLT
+	rm TTINVPVS.PLT
+	;;
+*) echo 'TERMINAL UNKNOWN USE TEKTRONIX' ;;
+esac
