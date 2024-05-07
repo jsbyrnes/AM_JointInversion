@@ -1,6 +1,6 @@
 # AM_JointInversion
 
-This is an inversion for 1D seismic structure using an adaptive meshing scheme from reeciver functions and surface waves - essentially the classic Julia et al., 2000 routine but redesign to go to much higher frequencies for sharp structure. This work is currently pending at NSF Geophysics (ie I wrote it for a proposal). 
+This is an inversion for 1D seismic structure using an adaptive meshing scheme from reeciver functions and surface waves - essentially the classic Julia et al., 2000 routine but redesigned to go to much higher frequencies for sharper structures when appropriate. This work is currently pending at NSF Geophysics (ie I wrote it for a proposal, not a paper yet). 
 
 Advances over existing routine include
  - Inverison of multi-taper deconvolved recevier functions, not time domain, which preserves higher frequencies.
@@ -13,6 +13,6 @@ Advances over existing routine include
 
 Things that could be added
  - Ellipicity, trivial addition. 
+ - A dereverb filter for sediments. Right now, if you try to invert a lot of sites, the high-f terms are all reverbs. You can model these well - sometimes. Sometimes, you get garbage and more work needs to be done to figure this out. Lots of good targets without the terrible reverbs though!
  - Love waves and a radial anisotropy term
  - A full Vp/Vs model where the reverbs are also modeled (I have tried this, but it made things slow)
- - A dereverb filter for sediments. Right now, if you try to invert a lot of sites, the high-f terms are all reverbs. You can model these well, sometimes. Sometimes, you get garbage and more work needs to be done to handle these. Lots of good targets with terribly reverbs though!
