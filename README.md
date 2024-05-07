@@ -15,3 +15,4 @@ Things that could be added
  - Ellipicity, trivial addition. 
  - Love waves and a radial anisotropy term
  - A full Vp/Vs model where the reverbs are also modeled (I have tried this, but it made things slow)
+ - A dereverb filter for sediments. Right now, if you try to invert a lot of sites, the high-f terms are all reverbs. You can model these well, sometimes. Sometimes, you get garbage and more work needs to be done to handle these. Lots of good targets with terribly reverbs though!
