@@ -37,9 +37,19 @@ writemod_surf96(model,'start.mod');
 
 % run surf96 
 
-[~, log] = system([timeoutstr, 'surf96 1 27 temp.dsp']);
-% read dispersion from tmep file
-data=readdisp_surf96('temp.dsp');
+try
+
+    [~, log] = system([timeoutstr, 'surf96 1 27 temp.dsp']);
+    % read dispersion from tmep file
+    data=readdisp_surf96('temp.dsp');
+
+catch
+
+    disp(log)
+    x = 1;
+    y = x(4);%crash
+
+end
 
 if(~isempty(data))
 	phv = data(:,2);

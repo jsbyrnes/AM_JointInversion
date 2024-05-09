@@ -4,7 +4,7 @@ clc
 clear
 
 warning('off', 'all')
-issyn = True;
+issyn = true;
 
 %dirname    = 'TA.H55A';
 dirname    = 'Syn_Complex';
@@ -60,7 +60,7 @@ else
     eval([ '!cp -r ../bin_linux/ ./bin_linux/' ])
     
     %on moonsoon
-    path2BIN = './binlinux/';
+    path2BIN = './bin_linux/';
     !chmod ++x ./bin_linux/*
     addpath('../functions-linux/')
 

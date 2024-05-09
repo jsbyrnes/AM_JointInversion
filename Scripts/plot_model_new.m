@@ -90,8 +90,8 @@ function tmp = plot_model_new(number, model, Parameters, allWfs, Disp, truemodel
     for k = 1:g
 
         plot(model.t, 0.5*allWfs(p, k).rfr/max(abs(allWfs(p, k).rfr)) + k, 'r', 'LineWidth', 1)
-        %plot(model.t, (0.5*(allWfs(p, k).rfr + allWfs(p, k).rfr_std))/max(abs(allWfs(p, k).rfr)) + k, 'r--')
-        %plot(model.t, (0.5*(allWfs(p, k).rfr - allWfs(p, k).rfr_std))/max(abs(allWfs(p, k).rfr)) + k, 'r--')
+        plot(model.t, (0.5*(allWfs(p, k).rfr + allWfs(p, k).rfr_std))/max(abs(allWfs(p, k).rfr)) + k, 'r--')
+        plot(model.t, (0.5*(allWfs(p, k).rfr - allWfs(p, k).rfr_std))/max(abs(allWfs(p, k).rfr)) + k, 'r--')
         plot(model.t, 0.5*model.synWfs(p, k).rfr/max(abs(allWfs(p, k).rfr)) + k, 'k', 'LineWidth', 1)
 
         yl{k} = num2str(Parameters.g_array(k));

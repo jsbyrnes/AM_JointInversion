@@ -1,3 +1,3 @@
 #!/bin/sh
 
-rsync -avr --delete /Users/josephbyrnes/Research/EARS/ jsb474@dtn1.hpc.nau.edu:/scratch/jsb474/EARS/
+rsync -avr --delete /Users/josephbyrnes/Research/AM_JointInversion/ jsb474@dtn1.hpc.nau.edu:/scratch/jsb474/AM_JointInversion/
