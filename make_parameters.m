@@ -3,7 +3,7 @@ function Parameters = make_parameters(dirname, fields, values)
     requesting_window = [ -100 250 ];%around the pick
     
     Parameters.save_name = dirname;
-    Parameters.tag       = '_050224';
+    Parameters.tag       = '_060824';
 
     %for handling the data
     Parameters.sample_rate      = 20;
