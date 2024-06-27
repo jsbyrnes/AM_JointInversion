@@ -7,7 +7,7 @@ Advances over existing routine include
  - Scaling the windows in extended time multitaper deconvolution to better preserve high frequency signals
  - Adaptive mesh to mimick the behavior of transdimensional monte carlos, except this is much faster. Run times are typically ~<6 hours with full errors, which keep in mind is for high-frequency models requires hundreds of layers in the model for the receiver function calculation.
  - Iteratively updated free-surface rotation based on the Vs you get at the top of the model
- - Vp/Vs variations solved for near the top of the model
+ - Vp/Vs variations solved for near the top of the model. Synthetics show that this is quite important for estimating amplitudes when combined with the update free-surface rotation. 
  - Weighting of the RF errors by magnitude of the harmonic terms - to avoid mapping anisotropy in the isotropic model.
  - A dampening scheme on the second derivative that allows big contrasts to grow (ie, a Cauchy function log(1 + weight*Vs'') instead of a Gaussian function weight*Vs'')
 
