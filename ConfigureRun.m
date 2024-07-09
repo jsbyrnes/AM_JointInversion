@@ -21,8 +21,7 @@ if ~issyn
     if ~exist([ '../' dirname ])
 
         nm = split(dirname, '.');
-        url_for_events = [ 'http://ears.iris.washington.edu/receiverFunction.zip?netCode=' nm{1} '&stacode=' nm{2} '&minPercentMatch=80&gaussian=2.5' ];
-        websave('data.zip', 'http://ears.iris.washington.edu/receiverFunction.zip?netCode=TA&stacode=H55A&minPercentMatch=80&gaussian=2.5')
+        websave('data.zip', [ 'http://ears.iris.washington.edu/receiverFunction.zip?netCode=' nm{1} '&stacode=' nm{2} '&minPercentMatch=80&gaussian=2.5' ])
         evalc('!unzip data.zip')
         movefile([ './Ears/gauss_2.5/' dirname '/' ], [ '../' dirname ])
         rmdir('Ears', 's')
