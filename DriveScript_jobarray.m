@@ -3,9 +3,6 @@ function DriveScript_jobarray(filename, job_id)
     %%%%no moveout correction RFs with adaptive gridding
     %close all
     
-    % Define file to track the job statuses
-    status_file = 'job_status.txt'; %This is used internally to prevent the job arrays from downloading at the same time. 
-
     warning('off', 'all')
     issyn = false;
     
@@ -13,9 +10,7 @@ function DriveScript_jobarray(filename, job_id)
 
     %dirname    = 'Syn_Complex';
     Parameters = make_parameters(dirname);
-    
-    ConfigureRun
-    
+        
     if issyn
     
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -59,33 +54,46 @@ function DriveScript_jobarray(filename, job_id)
         rng('shuffle')
     
     else
-    
-        % If job_id is 1, create the file and leave it blank
-        if job_id == 1
-            fid = fopen(status_file, 'w');
-            fclose(fid);  % Blank file is created
-        else
-            prev_job_id = job_id - 1;
-            disp(['Job ', num2str(job_id), ' is waiting for job ', num2str(prev_job_id), ' to finish downloading...']);
-    
-            % Keep checking the status file until the previous job is done
-            while true
-                if is_job_finished(prev_job_id, status_file)
-                    disp(['Job ', num2str(prev_job_id), ' finished. Job ', num2str(job_id), ' starting downloads...']);
-                    break;
-                end
-                pause(60);  % Wait for 60 seconds before checking again
-            end
+        
+        rng("shuffle")
+        
+        % Status file is located in the parent directory
+        status_file = 'job_status.txt';
+        
+        % Check if the status file exists; if not, create it
+        if ~isfile(status_file)
+            fid = fopen(status_file, 'w');  % Create the file
+            fclose(fid);
+            disp('Job status file created.');
         end
         
+        % Pause for a random amount of time between 1 and 120 seconds
+        pause_time = randi([1, 120], 1, 1);
+        disp(['Job ', num2str(job_id), ' pausing for ', num2str(pause_time), ' seconds...']);
+        pause(pause_time);
+    
+        % Wait until no other job is downloading
+        while true
+            if ~is_any_job_downloading(status_file)
+                disp(['Job ', num2str(job_id), ' starting downloads...']);
+                break;
+            end
+            disp(['Job ', num2str(job_id), ' is waiting for other jobs to finish downloading...']);
+            pause(60);  % Wait for 60 seconds before checking again
+        end
+    
+        % Mark the current job as downloading
+        mark_job_as_downloading(job_id, status_file);
+    
+        % Execute ConfigureRun located in the parent directory
+        run('ConfigureRun');
+    
         % Run the data download process
         disp('-----> Getting the data...');
         [rawData, Disp, Parameters] = load_real_data(dirname, Parameters);
     
-        % After the download is complete, write to the status file
-        fid = fopen(status_file, 'a');
-        fprintf(fid, 'Job_id %d finished downloading\n', job_id);
-        fclose(fid);
+        % After the download is complete, mark the job as finished
+        mark_job_as_finished(job_id, ['../'  status_file ]);
     
         truemodel = [];
     
@@ -110,18 +118,54 @@ function DriveScript_jobarray(filename, job_id)
 
 end
 
-function finished = is_job_finished(job_id, status_file)
-    % Check if the status file contains the "finished" message for the given job_id
-    finished = false;
+function downloading = is_any_job_downloading(status_file)
+    % Check if the status file indicates an ongoing download or if it's empty (indicating nothing has started).
+    
+    downloading = false;  % Assume no jobs are downloading initially
+    
     if exist(status_file, 'file')
         fid = fopen(status_file, 'r');
+        lastLine = '';  % Variable to store the last line
+        isEmpty = true;  % Flag to check if the file is empty
+        
+        % Read through the file to find the last line
         while ~feof(fid)
             line = fgetl(fid);
-            if contains(line, sprintf('Job_id %d downloading... finished', job_id))
-                finished = true;
-                break;
+            if ischar(line)
+                lastLine = line;  % Store the current line as the last one
+                isEmpty = false;  % File has content
             end
         end
+        
+        % Check if the file was empty
+        if isEmpty
+            downloading = false;  % If file is empty, assume nothing has started
+        else
+            % Check the last line for the specific status
+            if contains(lastLine, 'finished downloading')
+                downloading = false;
+            elseif contains(lastLine, 'downloading')
+                downloading = true;
+            end
+        end
+        
         fclose(fid);
+    else
+        % If the file does not exist, assume nothing has started
+        downloading = false;
     end
+end
+
+function mark_job_as_downloading(job_id, status_file)
+    % Append to the status file that this job is downloading
+    fid = fopen(status_file, 'a');
+    fprintf(fid, 'Job_id %d downloading\n', job_id);
+    fclose(fid);
+end
+
+function mark_job_as_finished(job_id, status_file)
+    % Append to the status file that this job has finished downloading
+    fid = fopen(status_file, 'a');
+    fprintf(fid, 'Job_id %d finished downloading\n', job_id);
+    fclose(fid);
 end

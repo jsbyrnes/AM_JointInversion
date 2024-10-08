@@ -59,6 +59,8 @@ addpath('../deconvolution_code/')
 addpath('../irisFetch/')
 addpath('../Scripts/')
 
+javaaddpath('../irisFetch/IRIS-WS-2.20.1.jar');  % Use the actual path where the jar file is located
+
 PATH = getenv('PATH');
 if isempty(strfind(PATH,path2BIN))
 %     setenv('PATH', [PATH,':',path2BIN]);
