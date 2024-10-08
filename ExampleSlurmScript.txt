@@ -1,0 +1,20 @@
+#!/bin/bash
+#SBATCH --job-name=RF_model                    # the name of your job
+#SBATCH --output=/scratch/jsb474/RF_model%a.txt  # this is the file your output and errors go to
+#SBATCH --error=/scratch/jsb474/RF_modelE%a.txt
+#SBATCH --time=24:00:00                            
+#SBATCH --chdir=/scratch/jsb474                  # your work directory
+#SBATCH --mem=32000                              # 96GB of memory
+#SBATCH --mail-type=END
+#SBATCH -c24
+#SBATCH --array=1-156                            # Define job array size (adjust this to the number of stations)
+
+# Load MATLAB module
+module load matlab/r2022b
+
+# Change to working directory
+cd /scratch/jsb474/AM_JointInversion/
+
+# Pass the SLURM_ARRAY_TASK_ID to your MATLAB function
+srun matlab -nodesktop -r "DriveScript_jobarray('NortheastTA.txt', $SLURM_ARRAY_TASK_ID); exit"
+
