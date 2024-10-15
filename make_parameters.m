@@ -3,7 +3,7 @@ function Parameters = make_parameters(dirname, fields, values)
     requesting_window = [ -100 250 ];%around the pick
     
     Parameters.save_name = dirname;
-    Parameters.tag       = '_060824';
+    Parameters.tag       = '_invTest';
 
     %for handling the data
     Parameters.sample_rate      = 20;
@@ -21,7 +21,7 @@ function Parameters = make_parameters(dirname, fields, values)
     Parameters.dz_lim           = [ 0.01 10 ];
     Parameters.debug            = false;
     Parameters.plot             = true;
-    Parameters.plot_z           = 70;
+    Parameters.plot_z           = 90;
     Parameters.total_time       = requesting_window(2) - requesting_window(1);
     Parameters.t                = requesting_window(1):(1/Parameters.sample_rate):requesting_window(2);
     Parameters.h                = 0.005;
@@ -29,7 +29,7 @@ function Parameters = make_parameters(dirname, fields, values)
     Parameters.rf_style         = 'multi-taper';
     Parameters.filter_style     = 'butter';
     Parameters.Firstgrad_damp   = [];%log. Positive is more damping.
-    Parameters.Secondgrad_damp  = 2;%log. Positive is more damping.
+    Parameters.Secondgrad_damp  = 3;%log. Positive is more damping.
     Parameters.smoothing_style  = 'cauchy';
     Parameters.deconvolve       = true;
     Parameters.IC               = 'BIC';
@@ -38,7 +38,7 @@ function Parameters = make_parameters(dirname, fields, values)
     Parameters.zstd             = 5;%for scaling the depth of nodes
     Parameters.sed_model_z      = 6;%in km. When inversions are allowed
     Parameters.baz_range        = [];
-    Parameters.monotonicity_w   = 5;
+    Parameters.monotonicity_w   = 20;
     Parameters.min_error        = 3;%in percent of peak amplitude
     Parameters.bootstrapping    = false;
     Parameters.bts_samples      = 50;
